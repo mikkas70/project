@@ -65,7 +65,7 @@
                     </li>
                     <li>
                         @if(!Auth::check())
-                            <a href="{{ url('/auth/login') }}" class="btn btn-primary" style="color:white;">Login</a>
+                            <a href="{{ url('/auth/login') }}" class="btn btn-primary" style="color:white;">Logina</a>
                         @else
                             <a href="{{ url('/auth/logout') }}" class="btn btn-primary" style="color:white;">Logout</a>
                         @endif
