@@ -20,3 +20,4 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 Route::resource('projects', 'ProjectController');
+Route::resource('users', 'UserController');
