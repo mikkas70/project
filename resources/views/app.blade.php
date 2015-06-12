@@ -40,13 +40,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ url('/') }}">Página Inicial</a>
+            <a class="navbar-brand" href="{{ url('/') }}">Home</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="#">About</a>
+                    <a href="#">Search Projects</a>
                 </li>
                 <li>
                     <a href="#">Services</a>
@@ -65,7 +65,7 @@
                     </li>
                     <li>
                         @if(!Auth::check())
-                            <a href="{{ url('/auth/login') }}" class="btn btn-primary" style="color:white;">Logina</a>
+                            <a href="{{ url('/auth/login') }}" class="btn btn-primary" style="color:white;">Login</a>
                         @else
                             <a href="{{ url('/auth/logout') }}" class="btn btn-primary" style="color:white;">Logout</a>
                         @endif
