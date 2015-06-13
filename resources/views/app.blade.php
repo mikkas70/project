@@ -40,16 +40,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ url('/') }}">Página Inicial</a>
+            <a class="navbar-brand" href="{{ url('/') }}">Home</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="#">About</a>
+                    <a href="#">Search Projects</a>
                 </li>
                 <li>
-                    <a href="#">Services</a>
+                    <a href="{{url('/users/userlist')}}">Users</a>
                 </li>
                 <li>
                     <a href="#">Contact</a>
@@ -60,12 +60,12 @@
                 <ul class="nav navbar-nav">
                     <li>
                         @if(Auth::check() && Auth::user()->role == 4)
-                            <a href="{{url('/auth/register')}}">Register Account</a>
+                            <a href="{{ route('users.index') }}">Register Account</a>
                         @endif
                     </li>
                     <li>
                         @if(!Auth::check())
-                            <a href="{{ url('/auth/login') }}" class="btn btn-primary" style="color:white;">Logina</a>
+                            <a href="{{ url('/auth/login') }}" class="btn btn-primary" style="color:white;">Login</a>
                         @else
                             <a href="{{ url('/auth/logout') }}" class="btn btn-primary" style="color:white;">Logout</a>
                         @endif

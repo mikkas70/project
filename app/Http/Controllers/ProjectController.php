@@ -176,4 +176,9 @@ class ProjectController extends Controller {
 		return redirect()->route('projects.index')->with($message);
 	}
 
+    public function getLastUpdated()
+    {
+        //TODO percorrer todos projs, devolver ultimos 4
+    }
+
 }
