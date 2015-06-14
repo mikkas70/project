@@ -23,8 +23,8 @@ class UserController extends Controller {
 
 	public function index()
 	{
-        $intitutions = Institution::all();
-        return view('auth.register', array('institutions' => $intitutions));
+        $institutions = Institution::all();
+        return view('auth.register', array('institutions' => $institutions));
 	}
 
 	/**
@@ -240,5 +240,26 @@ class UserController extends Controller {
 	}
 
 
+    public function changeFlag($id){
+        $user = User::findOrFail($id);
+
+
+        if($user->flags == 0){
+            $user->flags = 1;
+            $temp = "enabled.";
+
+
+        }else{
+            $user->flags = 0;
+            $temp = "disabled.";
+        }
+
+        if(!$user->save()){
+            $message = ['message_error' => 'Failed to change user account status'];
+            return redirect()->route('admin.index')->with($message);
+        }
+        $message = ['message_success' => 'User '.$user->name.' account is now '.$temp];
+        return redirect()->route('admin.index')->with($message);
+    }
 
 }

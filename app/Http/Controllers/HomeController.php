@@ -38,7 +38,6 @@ class HomeController extends Controller {
 
         $projects = Project::where('featured_until', '>', $actual_date)->get();
 
-
         $projects_updated = Project::orderBy('updated_at', 'desc')->take(4)->get();
         return view('home', compact('projects'), compact('projects_updated'));
     }

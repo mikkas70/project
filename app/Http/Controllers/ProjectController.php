@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Media;
 use App\User;
 use Illuminate\Http\Request;
 use Validator;
@@ -91,9 +92,20 @@ class ProjectController extends Controller {
 	{
         $project = Project::findOrFail($id);
         //TODO falta mandar comments
-		// mostrar pagina de um projecto
 
-        return view('projects.singleProject', compact('project'));
+        $Media_temp = Media::all();
+
+        /*foreach($Media_temp as $media){
+            if($media->)
+        }*/
+
+        $medias = Project::find(1)->media()->where('project_id', '=', $id)->get();
+
+
+
+        // mostrar pagina de um projecto
+
+        return view('projects.singleProject', compact('project'), compact('medias'));
 	}
 
 	/**

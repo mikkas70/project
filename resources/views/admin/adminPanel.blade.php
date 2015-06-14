@@ -59,9 +59,19 @@
                                         </td>
                                         <td>
                                             @if($user->flags == 1)
-                                                <a class="btn btn-danger" href="{{route('users.edit' , [$user->id])}}" role="button">Disable Account</a>
+                                                <form action="{{route('users.changeFlag' , [$user->id])}}" method="post">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                    <button type="submit" class="btn btn-danger">
+                                                        Disable Account
+                                                    </button>
+                                                </form>
                                             @else
-                                                <a class="btn btn-success" href="{{route('users.edit' , [$user->id])}}" role="button">Enable Account</a>
+                                                <form action="{{route('users.changeFlag' , [$user->id])}}" method="post">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                    <button type="submit" class="btn btn-success">
+                                                        Enable Account
+                                                    </button>
+                                                </form>
                                             @endif
                                         </td>
                                         <td>

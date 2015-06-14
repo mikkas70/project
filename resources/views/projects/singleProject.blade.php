@@ -35,5 +35,9 @@
                     </tr>
                 </tbody>
             </table>
+        <td><strong>Media</strong></td>
+        @foreach($medias as $media)
+            {{$media->title}}
+        @endforeach
     </div>
 @endsection('content')

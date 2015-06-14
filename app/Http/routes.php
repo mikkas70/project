@@ -18,6 +18,7 @@ Route::get('home', 'HomeController@index');
 Route::resource('projects', 'ProjectController');
 Route::resource('users', 'UserController');
 Route::resource('admin', 'AdminController');
+
 Route::resource('admin.activation', 'AdminController');
 
 
@@ -26,3 +27,4 @@ Route::controllers([
     'password' => 'Auth\PasswordController',
 ]);
 
+Route::post('user/changeFlag/{id}', array('as' => 'users.changeFlag', 'uses' => 'UserController@changeFlag'));
