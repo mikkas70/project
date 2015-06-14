@@ -46,23 +46,21 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="#">Search Projects</a>
+                    <a href="{{ route('projects.index')}}">Projects list</a>
                 </li>
                 <li>
-                    <a href="{{url('/users/userlist')}}">Users</a>
+                    <a href="{{url('/users/userlist')}}">User list</a>
                 </li>
+
                 <li>
-                    <a href="#">Contact</a>
+                    @if(Auth::check() && Auth::user()->role == 4)
+                        <a href="{{ route('admin.index') }}" style="color: green;">Admin Panel</a>
+                    @endif
                 </li>
 
             </ul>
             <ul class="nav navbar-nav" style="float: right;">
                 <ul class="nav navbar-nav">
-                    <li>
-                        @if(Auth::check() && Auth::user()->role == 4)
-                            <a href="{{ route('users.index') }}">Register Account</a>
-                        @endif
-                    </li>
                     <li>
                         @if(!Auth::check())
                             <a href="{{ url('/auth/login') }}" class="btn btn-primary" style="color:white;">Login</a>
@@ -80,13 +78,6 @@
 
 	@yield('content')
 
-<footer>
-    <div class="row">
-        <div class="col-lg-12">
-            <p>Copyright &copy; Your Website 2014</p>
-        </div>
-    </div>
-</footer>
 
 </div>
 <!-- /.container -->

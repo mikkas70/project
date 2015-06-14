@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers;
 
+use App\Project;
+
 class HomeController extends Controller {
 
 	/*
@@ -30,7 +32,10 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home');
-	}
+        $projects = Project::all()->take(4);
+
+        $projects_updated = Project::orderBy('updated_at', 'desc')->take(4)->get();
+        return view('home', compact('projects'), compact('projects_updated'));
+    }
 
 }

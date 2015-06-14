@@ -17,6 +17,9 @@ Route::get('home', 'HomeController@index');
 
 Route::resource('projects', 'ProjectController');
 Route::resource('users', 'UserController');
+Route::resource('admin', 'AdminController');
+Route::resource('admin.activation', 'AdminController');
+
 
 Route::controllers([
     'auth' => 'Auth\AuthController',

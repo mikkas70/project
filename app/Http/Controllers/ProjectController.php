@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 use Validator;
 use Auth;
@@ -11,10 +12,7 @@ use App\Project;
 class ProjectController extends Controller {
 
 
-	public function __construct()
-	{
-		$this->middleware('auth');
-	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -24,8 +22,9 @@ class ProjectController extends Controller {
 	{
 		//Ir buscar todos os projectos
 		$projects = Project::all();
+        $users = User::all();
 
-		return view('projects.index', compact('projects'));
+		return view('projects.index', compact('projects'), compact('users'));
 	}
 
 	/**
@@ -90,7 +89,11 @@ class ProjectController extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+        $project = Project::findOrFail($id);
+        //TODO falta mandar comments
+		// mostrar pagina de um projecto
+
+        return view('projects.singleProject', compact('project'));
 	}
 
 	/**

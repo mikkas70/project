@@ -46,7 +46,7 @@
                             <div class="col-md-6">
                                 <select class="form-control" name="institution">
                                     @foreach($institutions as $institution)
-                                        <option name="{{ $institution->id }}">{{$institution->name}}</option>
+                                        <option value="{{$institution->id}}">{{$institution->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -74,7 +74,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Profile Picture</label>
                             <div class="col-md-6">
-                                <input type="file" class="form-control" name="photo">
+                                <input type="file" class="form-control" name="photo_url">
                             </div>
                         </div>
                         <div class="form-group">
@@ -83,7 +83,13 @@
                                 <input type="text" class="form-control" name="profileURL" value="{{ old('profileURL') }}">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label"></label>
+                            <div class="col-md-6">
+                                <label class="form-control" style="color:red; border-style: none">* fields are required</label>
 
+                            </div>
+                        </div>
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">

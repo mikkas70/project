@@ -1,6 +1,7 @@
 @extends('app')
 
 @section('content')
+    <div class="container">
 <div class="page-header">
     <h1>Projects</h1>
 </div>
@@ -21,9 +22,10 @@
 @if(count($projects))
 <table class="table table-striped">
     <thead>
+
         <tr>
             <th>Title</th>
-            <th>Homepage</th>
+            <th>Author</th>
             <th colspan="2" class="col-xs-1">Actions</th>
         </tr>
     </thead>
@@ -31,28 +33,24 @@
     	@foreach($projects as $project)
         <tr>
             <td>{{ $project->name}}</td>
-            <td>@if($project->homepage)
-            <a href="{{ $project->homepage }}">{{ $project->homepage }}</a> @endif</td>
             <td>
-                <a class="btn btn-primary" href="{{route('projects.edit' , [$project->id])}}" role="button">Edit</a>
+                @foreach($users as $user)
+                    @if($user->id == $project->created_by)
+                        {{$user->name}}
+                    @endif
+                @endforeach
             </td>
             <td>
-                <form action="{{route('projects.destroy' , [$project->id])}}" method="post">
-                	<input type="hidden" name="_token" value="{{ csrf_token() }}">
-                	<input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="btn btn-danger">
-                    Delete
-                    </button>
-                </form>
+                <a class="btn btn-primary" href="{{route('projects.show' , [$project->id])}}" role="button">Visit Project</a>
             </td>
+
         </tr>
         @endforeach
         
     </tbody>
 </table>
 @else
-	<p class="well">Go ahead and add the first project.</p>
+	<p class="well">There are no projects added yet.</p>
 @endif
-<a class="btn btn-success" href="{{route('projects.create')}}" role="button">Add New Project</a>
-
+</div>
 @endsection('content')
