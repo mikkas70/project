@@ -19,8 +19,8 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-                        @if(Session::has('message_error'))
-                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                @if(Session::has('message_error'))
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" arialabel="Close"><span
                                             aria-hidden="true">&times;</span></button>
                                 {{Session::get('message_error')}}

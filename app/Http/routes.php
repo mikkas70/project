@@ -18,8 +18,7 @@ Route::get('home', 'HomeController@index');
 Route::resource('projects', 'ProjectController');
 Route::resource('users', 'UserController');
 Route::resource('admin', 'AdminController');
-
-Route::resource('admin.activation', 'AdminController');
+Route::resource('comments' , 'CommentController');
 
 
 Route::controllers([
@@ -28,3 +27,4 @@ Route::controllers([
 ]);
 
 Route::post('user/changeFlag/{id}', array('as' => 'users.changeFlag', 'uses' => 'UserController@changeFlag'));
+Route::post('comment/createComment/{id}', array('as' => 'comments.createComment', 'uses' => 'CommentController@createComment'));

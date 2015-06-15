@@ -107,7 +107,7 @@ class UserController extends Controller {
         $message = ['message_success' => 'User was created successfully'];
 
         if(!$user->save()){
-            $message = ['message_error' => 'Failed to create project'];
+            $message = ['message_error' => 'Failed to create user'];
         }
 
         return redirect()->route('admin.index')->with($message);

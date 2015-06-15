@@ -62,10 +62,16 @@
             </ul>
             <ul class="nav navbar-nav" style="float: right;">
                 <ul class="nav navbar-nav">
+                    @if(Auth::check())
+                        <li >
+                            <a style="color:white"> Logged as {{Auth::user()->name}}</a>
+                        </li>
+                    @endif
                     <li>
                         @if(!Auth::check())
                             <a href="{{ url('/auth/login') }}" class="btn btn-primary" style="color:white;">Login</a>
                         @else
+
                             <a href="{{ url('/auth/logout') }}" class="btn btn-primary" style="color:white;">Logout</a>
                         @endif
                     </li>
