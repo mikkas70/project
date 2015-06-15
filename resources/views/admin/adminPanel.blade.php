@@ -38,6 +38,7 @@
                                 <tr>
                                     <th>User Name</th>
                                     <th>Role</th>
+
                                     <th colspan="2" class="col-xs-1">Actions</th>
                                 </tr>
                                 </thead>
@@ -49,7 +50,7 @@
                                             @if($user->role == 1)
                                                 <p>Author</p>
                                             @elseif($user->role == 2)
-                                                <p>Editor</p>
+                                                <p style="color: #006600;"><strong>Editor</strong></p>
                                             @else
                                                 <p style="color: #ac2925;"><strong>Administrator</strong></p>
                                             @endif

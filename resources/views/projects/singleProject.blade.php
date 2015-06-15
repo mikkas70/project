@@ -6,26 +6,31 @@
         <div class="page-header">
             <h1>Project Details</h1>
         </div>
-
+        <div class="panel panel-default">
+            <div class="panel-heading">
             <table class="table table-striped">
                 <thead>
-                <tr>
-                    <th>Title</th>
-                </tr>
+
                 </thead>
                 <tbody style="width: 100px">
-                    <tr style="">
+                    <tr>
                       <td><strong>Project Name:</strong></td>
                       <td>{{$project->name}}</td>
+                    </tr>
+
+                    <tr>
+                       @foreach($users as $user)
+                           @if($user->id == $project->created_by)
+                                <td><strong>Author:</strong></td>
+                                <td>{{$user->name}}</td>
+                           @endif
+                       @endforeach
                     </tr>
                     <tr>
                         <td><strong>Acronym:</strong></td>
                         <td>{{$project->acronym}}</td>
                     </tr>
-                    <tr>
-                        <td><strong>Description:</strong></td>
-                        <td>{{$project->description}}</td>
-                    </tr>
+
                     <tr>
                         <td><strong>Type:</strong></td>
                         <td>{{$project->type}}</td>
@@ -34,14 +39,46 @@
                         <td><strong>Theme:</strong></td>
                         <td>{{$project->theme}}</td>
                     </tr>
+                    @if($project->used_software)
+                    <tr>
+                        <td><strong>Used software:</strong></td>
+                        <td>{{$project->used_software}}</td>
+                    </tr>
+                    @endif
+                    <tr>
+                        <td><strong>Description:</strong></td>
+                        <td>{{$project->description}}</td>
+                    </tr>
+                    @if($project->started_at)
+                    <tr>
+                        <td><strong>Started at</strong></td>
+                        <td>{{$project->started_at}}</td>
+                    </tr>
+                    @endif
+                    @if($project->finished_at)
+                    <tr>
+                        <td><strong>Finished at</strong></td>
+                        <td>{{$project->finished_at}}</td>
+                    </tr>
+                    @else
+                        <tr>
+                            <td><strong>Finished at</strong></td>
+                            <td>Not defined.</td>
+                        </tr>
+
+                    @endif
                 </tbody>
             </table>
 
+</div>
 
+        </div>
         <td><strong>Media</strong></td>
         @foreach($medias as $media)
             {{$media->title}}
         @endforeach
+        <br><br><br>
+
         <div class="panel panel-default">
             <div class="panel-heading">
                 <p style="font-size: 20px; color: #23527c">Comment Section</p>
@@ -88,7 +125,6 @@
                         </tr>
                     </form>
                 </table>
-
                 <table class="table table-striped">
                     @foreach($comments as $comment)
                         @if($comment->approved_by != null)

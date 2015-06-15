@@ -20,16 +20,21 @@
 @endif
 
 @if(count($projects))
+            <div class="panel panel-default">
+                <div class="panel-heading">
 <table class="table table-striped">
-    <thead>
 
+    <thead>
         <tr>
-            <th>Title</th>
+            <th>Project Name</th>
             <th>Author</th>
             <th colspan="2" class="col-xs-1">Actions</th>
         </tr>
+
     </thead>
+
     <tbody>
+
     	@foreach($projects as $project)
         <tr>
             <td>{{ $project->name}}</td>
@@ -48,7 +53,10 @@
         @endforeach
         
     </tbody>
+
 </table>
+                </div>
+            </div>
 @else
 	<p class="well">There are no projects added yet.</p>
 @endif

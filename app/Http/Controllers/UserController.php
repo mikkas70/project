@@ -122,7 +122,9 @@ class UserController extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+        $users = User::all();
+
+        return view('users.userlist', compact('users'));
 	}
 
 
