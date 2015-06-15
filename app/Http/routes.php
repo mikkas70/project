@@ -27,3 +27,5 @@ Route::controllers([
 
 Route::post('user/changeFlag/{id}', array('as' => 'users.changeFlag', 'uses' => 'UserController@changeFlag'));
 Route::post('comment/createComment/{id}', array('as' => 'comments.createComment', 'uses' => 'CommentController@createComment'));
+Route::post('comment/sendRequest/{id}', array('as' => 'comments.sendRequest', 'uses' => 'CommentController@sendRequest'));
+

@@ -98,7 +98,6 @@ class ProjectController extends Controller {
         $comments = Project::find(1)->comments()->where('project_id', '=', $id)->orderBy('created_at', 'DESC')->get();
         $users = User::all();
 
-
         // mostrar pagina de um projecto
         return view('projects.singleProject', compact('project'), compact('medias', 'comments', 'users'));
 	}

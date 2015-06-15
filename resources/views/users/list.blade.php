@@ -5,6 +5,12 @@
         <div class="page-header">
             <h1>Users</h1>
         </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <form class="form-horizontal" role="form" method="POST" action="{{route('users.update', $id)}}">
+                </form>
+             </div>
+        </div>
         @if(Session::has('message_error'))
             <div class="alert alert-danger alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" arialabel="Close"><span
@@ -27,7 +33,7 @@
                         <tr>
                             <th>User name</th>
                             <th>Role</th>
-                            <th>Number of Projects</th>
+                            <th style="text-align: center">Number of Projects</th>
                             <th colspan="2" class="col-xs-1">Actions</th>
                         </tr>
                         </thead>
@@ -46,8 +52,11 @@
                                     @endif
                                 </td>
 
-                                <td>
-                                    xxx
+                                <td style="text-align: center">
+
+                                        {{$projects[$user->id]}}
+
+
                                 </td>
                                 <td>
                                     <!-- Botões -->

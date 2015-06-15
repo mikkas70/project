@@ -18,7 +18,6 @@ class UserController extends Controller {
 	 */
     public function __construct()
     {
-        $this->middleware('auth');
     }
 
 	public function index()
@@ -124,7 +123,14 @@ class UserController extends Controller {
 	{
         $users = User::all();
 
-        return view('users.userlist', compact('users'));
+
+        foreach($users as $user)
+        {
+            $projects[$user->id] = count(Project::where('created_by', '=', $user->id)->get());
+        }
+
+
+        return view('users.list', compact('users', 'projects'));
 	}
 
 
@@ -142,6 +148,8 @@ class UserController extends Controller {
 
         return view('users.edit', $user->toArray(), compact('institutions'));
 	}
+
+
 
 
 	/**

@@ -2,7 +2,20 @@
 
 @section('content')
     <div class="container">
-
+        @if(count($errors))
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" arialabel="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                @foreach($errors->all() as $error)
+                    {{$error}}<br>
+                @endforeach
+            </div>
+        @elseif(Session::has('message_success'))
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{Session::get('message_success')}}
+            </div>
+        @endif
         <div class="page-header">
             <h1>Project Details</h1>
         </div>
@@ -70,7 +83,7 @@
                 </tbody>
             </table>
 
-</div>
+    </div>
 
         </div>
         <td><strong>Media</strong></td>
@@ -81,26 +94,44 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
+                <p style="font-size: 20px; color: #23527c">Request Contact</p>
+            </div>
+
+            <div class="panel-body">
+                <table>
+                    <form action="{{route('comments.sendRequest', [$project->id])}}" method="POST">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        @if(!Auth::check())
+                            <tr>
+                                <input type="text" class="form-control" name=name placeholder="Enter your name here" value="{{old('name')}}">
+                            </tr>
+                            <br>
+                        @endif
+                        <tr>
+                            <textarea name="message" class="form-control" style="resize: none; width:100%; height: 150px" placeholder="Write your message here">{{old('message')}}</textarea>
+
+                        </tr>
+                        <tr>
+                            <br>
+                            <td>
+                                <button type="submit" class="btn btn-primary" >
+                                    Request contact
+                                </button>
+                            </td>
+
+                        </tr>
+                    </form>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
                 <p style="font-size: 20px; color: #23527c">Comment Section</p>
             </div>
 
             <div class="panel-body">
-
-
-                @if(count($errors))
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" arialabel="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                        @foreach($errors->all() as $error)
-                            {{$error}}<br>
-                        @endforeach
-                    </div>
-                @elseif(Session::has('message_success'))
-                    <div class="alert alert-success alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        {{Session::get('message_success')}}
-                    </div>
-                @endif
                 <table>
                     <form action="{{route('comments.createComment', [$project->id])}}" method="POST">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
