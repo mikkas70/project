@@ -141,8 +141,13 @@ class CommentController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
-	}
+        $comment = Comment::findOrFail($id);
+
+        $user = $comment->user_id == null ? $comment->user_name : User::findOrFail($comment->user_id)->name;
+        $project_name = Project::findOrFail($comment->project_id)->name;
+
+        return view('editor.editComment', compact('comment', 'user', 'project_name'));
+    }
 
 	/**
 	 * Update the specified resource in storage.
@@ -150,9 +155,27 @@ class CommentController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $request, $id)
 	{
-		//
+        $comment = Comment::findOrFail($id);
+        $rules = ['comment' => 'required|min:1|max:300'];
+
+        $validator = Validator::make($request->all() , $rules);
+
+        if($validator->fails()){
+            return redirect()->route('comments.edit', $id)->withErrors($validator)->withInput();
+            //return view('editor.editComment', compact('comment', 'user', 'project_name'));
+        }
+
+        $comment->comment = $request->comment;
+
+        if(!$comment->save()){
+            $message = ['message_error' => 'Could not edit the comment.'];
+            return redirect()->route('editor.rejectComment', $id)->withErrors($message)->withInput();
+        }
+
+        $message = ['message_success' => 'The comment was edited successfully'];
+        return redirect()->route('editor.index', $id)->with($message);
 	}
 
     public function refuse(Request $request, $id)

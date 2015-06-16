@@ -14,6 +14,8 @@
 Route::get('/', 'HomeController@index');
 Route::get('home', 'HomeController@index');
 
+
+
 Route::resource('projects', 'ProjectController');
 Route::resource('users', 'UserController');
 Route::resource('admin', 'AdminController');
@@ -28,11 +30,9 @@ Route::controllers([
 
 Route::post('user/changeFlag/{id}', array('as' => 'users.changeFlag', 'uses' => 'UserController@changeFlag'));
 Route::any('user/filter/', array('as' => 'users.filter', 'uses' => 'UserController@filter'));
-
 Route::post('comment/createComment/{id}', array('as' => 'comments.createComment', 'uses' => 'CommentController@createComment'));
 Route::post('comment/sendRequest/{id}', array('as' => 'comments.sendRequest', 'uses' => 'CommentController@sendRequest'));
 Route::post('comment/approveContent/{id}', array('as' => 'editor.approveContent', 'uses' => 'EditorController@approveContent'));
-
 
 
 

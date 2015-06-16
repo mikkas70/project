@@ -7,8 +7,7 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <form class="form-horizontal" role="form" method="POST" action="{{route('users.filter')}}">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <form class="form-horizontal" role="form" method="get" action="{{route('users.show', 'false')}}">
                     <table class="table table-condensed">
                         <tr>
                             <th style="vertical-align: middle">
