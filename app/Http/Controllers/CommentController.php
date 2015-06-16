@@ -57,7 +57,7 @@ class CommentController extends Controller {
             $comment->user_name = $request->get('user_name');
         }else{
             $comment->user_id = Auth::user()->id;
-            if(Auth::user()->role == 4)
+            if(Auth::user()->role >= 2)
                 $comment->approved_by = Auth::user()->id;
         }
 
@@ -155,6 +155,28 @@ class CommentController extends Controller {
 		//
 	}
 
+    public function refuse(Request $request, $id)
+    {
+        $comment = Comment::findOrFail($id);
+
+        $rules = ['refusal_msg' => 'required|min:1|max:300'];
+
+        $validator = Validator::make($request->all() , $rules);
+
+        if($validator->fails()){
+            return redirect()->route('editor.rejectComment', $id)->withErrors($validator)->withInput();
+        }
+
+        $comment->refusal_msg = $request->refusal_msg;
+
+        if(!$comment->save()){
+            $message = ['message_error' => 'The comment could not be refused.'];
+            return redirect()->route('editor.rejectComment', $id)->withErrors($message)->withInput();
+        }
+
+        $message = ['message_success' => 'The comment was refused successfully'];
+        return redirect()->route('editor.index', $id)->with($message);
+    }
 	/**
 	 * Remove the specified resource from storage.
 	 *

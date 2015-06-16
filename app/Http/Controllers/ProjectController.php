@@ -26,7 +26,7 @@ class ProjectController extends Controller {
 		$projects = Project::all();
         $users = User::all();
 
-		return view('projects.index', compact('projects'), compact('users'));
+		return view('projects.index', compact('projects'), compact('users', 'medias'));
 	}
 
 	/**
@@ -97,6 +97,7 @@ class ProjectController extends Controller {
         $medias = Project::find(1)->media()->where('project_id', '=', $id)->get();
         $comments = Project::find(1)->comments()->where('project_id', '=', $id)->orderBy('created_at', 'DESC')->get();
         $users = User::all();
+
 
         // mostrar pagina de um projecto
         return view('projects.singleProject', compact('project'), compact('medias', 'comments', 'users'));

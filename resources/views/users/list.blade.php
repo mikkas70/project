@@ -7,7 +7,52 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <form class="form-horizontal" role="form" method="POST" action="{{route('users.update', $id)}}">
+                <form class="form-horizontal" role="form" method="POST" action="{{route('users.filter')}}">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <table class="table table-condensed">
+                        <tr>
+                            <th style="vertical-align: middle">
+                                Search:
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" name="name" value="">
+                            </th>
+                            <th style="vertical-align: middle">
+                                Sort by:
+                            </th>
+                            <th>
+                                <select class="form-control" name="sort_by" >
+                                    <option value="name" >Name</option>
+                                    <option value="role" >Role</option>
+                                </select>
+                            </th>
+                            <th style="vertical-align: middle">
+                            Sort type:
+                            </th>
+                            <th>
+                                <select class="form-control" name="sort_type">
+                                    <option value="asc" >Ascendant</option>
+                                    <option value="desc">Descendant</option>
+                                </select>
+                            </th>
+                            <th style="vertical-align: middle">
+                            Results per page:
+                            </th>
+                            <th>
+                                <select class="form-control" name="results">
+                                    <option value="5" >5</option>
+                                    <option value="10" >10</option>
+                                    <option value="20" >20</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </th>
+                            <th>
+                                <button type="submit" class="btn btn-primary">
+                                    Search
+                                </button>
+                            </th>
+                        </tr>
+                    </table>
                 </form>
              </div>
         </div>
@@ -65,8 +110,9 @@
                             </tr>
                         @endforeach
                         </tbody>
-
                     </table>
+                    {!! $users->render() !!}
+
                 </div>
             </div>
         @else

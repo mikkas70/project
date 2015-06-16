@@ -119,9 +119,11 @@ class UserController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(Request $request, $id)
 	{
-        $users = User::all();
+
+
+        $users = User::Paginate(50);
 
 
         foreach($users as $user)
@@ -133,6 +135,21 @@ class UserController extends Controller {
         return view('users.list', compact('users', 'projects'));
 	}
 
+    public function filter(Request $request){
+
+        $users = User::paginate($request->results);
+            //orderBy($request->order_by, $request->order_type)->
+        foreach($users as $user)
+        {
+            $projects[$user->id] = count(Project::where('created_by', '=', $user->id)->get());
+        }
+
+
+        return view('users.list', compact('users', 'projects'));
+
+
+
+    }
 
 
 	/**

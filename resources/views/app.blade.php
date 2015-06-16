@@ -54,8 +54,12 @@
                 </li>
 
                 <li>
-                    @if(Auth::check() && Auth::user()->role == 4)
-                        <a href="{{ route('admin.index') }}" style="color: green;">Admin Panel</a>
+                    @if(Auth::check())
+                        @if(Auth::user()->role == 4)
+                            <a href="{{ route('admin.index') }}" style="color: green;">Admin Panel</a>
+                        @elseif(Auth::user()->role == 2)
+                            <a href="{{ route('editor.index') }}" style="color: green;">Editor Panel</a>
+                        @endif
                     @endif
                 </li>
 

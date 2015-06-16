@@ -53,10 +53,16 @@
                         <td>{{$project->theme}}</td>
                     </tr>
                     @if($project->used_software)
-                    <tr>
-                        <td><strong>Used software:</strong></td>
-                        <td>{{$project->used_software}}</td>
-                    </tr>
+                        <tr>
+                            <td><strong>Used software:</strong></td>
+                            <td>{{$project->used_software}}</td>
+                        </tr>
+                    @endif
+                    @if($project->used_hardware)
+                        <tr>
+                            <td><strong>Used Hardware:</strong></td>
+                            <td>{{$project->used_hardware}}</td>
+                        </tr>
                     @endif
                     <tr>
                         <td><strong>Description:</strong></td>
