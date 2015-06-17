@@ -116,10 +116,11 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <a href="{{ route('admin.index') }}" class="btn btn-danger" style="color:white;">Cancel</a>
+
                                     <button type="submit" class="btn btn-primary">
-                                        Edit user
+                                        Save Changes
                                     </button>
+                                    <a href="{{ route('admin.index') }}" class="btn">Cancel</a>
                                 </div>
                             </div>
                         </form>
