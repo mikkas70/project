@@ -63,8 +63,10 @@ class MediaController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
-	}
+        $media = Media::findOrFail($id);
+
+        return view('editor.editMedia', compact('media'));
+    }
 
 	/**
 	 * Update the specified resource in storage.
@@ -84,16 +86,15 @@ class MediaController extends Controller {
         $validator = Validator::make($request->all() , $rules);
 
         if($validator->fails()){
-            return redirect()->route('media.show', $id)->withErrors($validator)->withInput();
+            return redirect()->route('media.edit', $id)->withErrors($validator)->withInput();
         }
 
         $media->title = $request->title;
         $media->description = $request->description;
-
         if(!$media->save())
         {
             $message = ['message_error' => 'User edited successfully'];
-            return redirect()->route('media.show', $id)->withErrors($message)->withInput();
+            return redirect()->route('media.edit', $id)->withErrors($message)->withInput();
         }
 
         $message = ['message_success' => 'Media edited successfully'];
@@ -138,7 +139,6 @@ class MediaController extends Controller {
 
     public function refuse(Request $request, $id){
 
-        echo $request->title;
 
         $media = Media::findOrFail($id);
 

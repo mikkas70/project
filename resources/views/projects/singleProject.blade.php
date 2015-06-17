@@ -18,26 +18,36 @@
         @endif
         <div class="page-header">
             <h1>Project Details</h1>
+            @if(Auth::check() && ($project->created_by == Auth::user()->id || Auth::user()->role >= 2))
+                <td>
+                    <p>Actions: </p>
+                    <a class="btn btn-primary" href="{{route('projects.edit' , [$project->id])}}" role="button">Edit</a>
+                    <a class="btn btn-primary" href="{{route('projects.edit' , [$project->id])}}" role="button">Submit Content</a>
+                </td>
+
+            @endif
         </div>
+
         <div class="panel panel-default">
             <div class="panel-heading">
-            <table class="table table-striped">
-                <thead>
 
-                </thead>
-                <tbody style="width: 100px">
+                <table class="table table-striped">
+                    <thead>
+
+                    </thead>
+                    <tbody style="width: 100px">
                     <tr>
-                      <td><strong>Project Name:</strong></td>
-                      <td>{{$project->name}}</td>
+                        <td><strong>Project Name:</strong></td>
+                        <td>{{$project->name}}</td>
                     </tr>
 
                     <tr>
-                       @foreach($users as $user)
-                           @if($user->id == $project->created_by)
+                        @foreach($users as $user)
+                            @if($user->id == $project->created_by)
                                 <td><strong>Author:</strong></td>
                                 <td>{{$user->name}}</td>
-                           @endif
-                       @endforeach
+                            @endif
+                        @endforeach
                     </tr>
                     <tr>
                         <td><strong>Acronym:</strong></td>
@@ -69,16 +79,16 @@
                         <td>{{$project->description}}</td>
                     </tr>
                     @if($project->started_at)
-                    <tr>
-                        <td><strong>Started at</strong></td>
-                        <td>{{$project->started_at}}</td>
-                    </tr>
+                        <tr>
+                            <td><strong>Started at</strong></td>
+                            <td>{{$project->started_at}}</td>
+                        </tr>
                     @endif
                     @if($project->finished_at)
-                    <tr>
-                        <td><strong>Finished at</strong></td>
-                        <td>{{$project->finished_at}}</td>
-                    </tr>
+                        <tr>
+                            <td><strong>Finished at</strong></td>
+                            <td>{{$project->finished_at}}</td>
+                        </tr>
                     @else
                         <tr>
                             <td><strong>Finished at</strong></td>
@@ -86,10 +96,11 @@
                         </tr>
 
                     @endif
-                </tbody>
-            </table>
+                    </tbody>
 
-    </div>
+                </table>
+
+            </div>
 
         </div>
         <td><strong>Media</strong></td>
@@ -141,16 +152,16 @@
                 <table>
                     <form action="{{route('comments.createComment', [$project->id])}}" method="POST">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    @if(!Auth::check())
+                        @if(!Auth::check())
+                            <tr>
+                                <input type="text" class="form-control" name="user_name" placeholder="Enter name" value="{{old('user_name')}}">
+                            </tr>
+                            <br>
+                        @endif
                         <tr>
-                            <input type="text" class="form-control" name="user_name" placeholder="Enter name" value="{{old('user_name')}}">
-                        </tr>
-                        <br>
-                    @endif
-                    <tr>
-                        <textarea name="comment" class="form-control" style="resize: none; width:100%; height: 150px" placeholder="Write your comment here">{{old('comment')}}</textarea>
+                            <textarea name="comment" class="form-control" style="resize: none; width:100%; height: 150px" placeholder="Write your comment here">{{old('comment')}}</textarea>
 
-                    </tr>
+                        </tr>
                         <tr>
                             <br>
                             <td>
@@ -165,35 +176,35 @@
                 <table class="table table-striped">
                     @foreach($comments as $comment)
                         @if($comment->approved_by != null)
-                        <thead>
-                    <tr>
-                        <th>
-                            <br>
-                                @if($comment->user_id == null)
-                                    <strong>{{$comment->user_name.' at '.$comment->created_at.':'}}</strong>
-                                @else
-                                    @foreach($users as $user)
-                                        @if($user->id == $comment->user_id)
-                                            <strong> {{$user->name.' at '.$comment->created_at.':'}}</strong>
-                                        @endif
-                                    @endforeach
-                                @endif
+                            <thead>
+                            <tr>
+                                <th>
+                                    <br>
+                                    @if($comment->user_id == null)
+                                        <strong>{{$comment->user_name.' at '.$comment->created_at.':'}}</strong>
+                                    @else
+                                        @foreach($users as $user)
+                                            @if($user->id == $comment->user_id)
+                                                <strong> {{$user->name.' at '.$comment->created_at.':'}}</strong>
+                                            @endif
+                                        @endforeach
+                                    @endif
 
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-                        <tr>
-                            <td>
-                               <p>{{$comment->comment}}</p>
-                            </td>
+                            <tr>
+                                <td>
+                                    <p>{{$comment->comment}}</p>
+                                </td>
 
-                        </tr>
-                        @endif
-                        @endforeach
+                            </tr>
+                            @endif
+                            @endforeach
 
-                    </tbody>
+                            </tbody>
                 </table>
             </div>
 

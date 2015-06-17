@@ -25,18 +25,16 @@
                         @endif
                         <br>
 
-                        <form class="form-horizontal" role="form" method="POST" action="{{route('media.update', $media->id)}}">
-                            <input type="hidden" name="_method" value="PUT" />
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
+                            <form action="{{route('media.refuse' , [$media->id])}}" method="any">
+                                <input type="hidden" name="_method" value="UPDATE" />
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <table class="table table-striped">
-
                                 <tr>
                                     <td>
                                         Title
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="title" value="{{$media->title, old('title')}}">
+                                        {{$media->title, old('title')}}
                                     </td>
 
                                 </tr>
@@ -46,84 +44,86 @@
                                         Description
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="description" value="{{$media->description, old('description')}}">
+                                        {{$media->description, old('description')}}
                                     </td>
                                 </tr>
+                                    <tr>
+                                        <td>
 
+                                            Status:
+
+                                        </td>
+                                        <td>
+                                            @if($media->approved_by != null)
+                                                <p style="color:green">Approved</p>
+                                            @elseif($media->refusal_msg != null)
+                                                <p style="color:red">Refused</p>
+                                            @else
+                                                <p> Waiting for Approval</p>
+
+
+                                        </td>
+                                    </tr>
+
+                                @endif
+                                @if($media->approved_by == null && $media->refusal_msg == null)
+                                <tr>
+                                    <td>
+                                        Refusal reason:
+
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="refusal_msg" placeholder="Enter the refusal reason here" value="{{old('refusal_msg')}}">
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                </tr>
+                                @endif
                             </table>
 
+                                    <td>
+                                        <a href="{{route('media.index')}}" class="btn btn-primary">Cancel</a>                                    </td>
+                                    <td>
+
+                                        @if($media->approved_by == null && $media->refusal_msg == null)
+                                            <button type="submit" class="btn btn-danger">Refuse </button>
+                                        @endif
+                                    </td>
+                                </form>
+
+                                        <td>
+                                        @if($media->approved_by == null && $media->refusal_msg == null)
+                                            <form action="{{route('media.approve' , [$media->id])}}" method="post">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <button type="submit" class="btn btn-success">Approve</button>
+                                            </form>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <form action="{{route('media.destroy' , [$media->id])}}" method="post">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="_method" value="DELETE" />
+                                            <button type="submit" class="btn btn-danger">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </td>
 
 
-                            <br>
 
-                            <table>
-                                <th>
-                                    <a href="{{route('media.index')}}" class="btn btn-primary">Cancel</a>
-                                </th>
-                                <th>
-                                    <button type="submit" class="btn btn-primary">
-                                        Save changes
-                                    </button>
-                                </th>
-                                <th>
-                                    <form action="{{route('media.destroy' , [$media->id])}}" method="post">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="hidden" name="_method" value="DELETE" />
-                                        <button type="submit" class="btn btn-danger">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </th>
-                            </table>
-                        </form>
 
-                        <table>
-                            <tbody>
-                            <br>
 
-                            </tbody>
-                        </table>
+
+
+
+
+
+
                     </div>
                 </div>
-                <table>
-
-                    <form class="form-horizontal" role="form" method="post" action="{{route('media.refuse', $media->id)}}">
-                    <table>
-                        @if($media->approved_by == null && $media->refusal_msg == null)
-                            <tr>
-                                <td>
-                                    Refusal reason:
-
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" name="refusal_msg" placeholder="Enter the refusal reason here" value="{{old('refusal_msg')}}">
-                                </td>
-                                <td>
-
-                                </td>
-                            </tr>
-                        @endif
-                    </table>
-                    <th>
-                        @if($media->approved_by == null && $media->refusal_msg == null)
-                            <form action="{{route('media.approve' , [$media->id])}}" method="post">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <button type="submit" class="btn btn-success">Approve</button>
-                            </form>
-                    </th>
-                    <th>
-                        <form action="{{route('media.refuse' , [$media->id])}}" method="post">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <button type="submit" class="btn btn-danger">Refuse </button>
-                        </form>
-                    </th>
-                        </form>
-                     @endif
-                </table>
             </div>
-
         </div>
-
     </div>
 
 @endsection

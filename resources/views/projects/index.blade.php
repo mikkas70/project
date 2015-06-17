@@ -1,7 +1,12 @@
-@extends('app')
+@if(Auth::check() && Auth::user()->role >= 2 )
+        @extends('editor')
+        @section('editor_content')
+@else
+    @section('content')
+@endif
 
-@section('content')
-    <div class="container">
+
+<div class="container">
 <div class="page-header">
     <h1>Projects</h1>
 </div>
@@ -61,4 +66,4 @@
 	<p class="well">There are no projects added yet.</p>
 @endif
 </div>
-@endsection('content')
+@endsection()

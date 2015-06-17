@@ -47,6 +47,9 @@
                         <td>
                             <a class="btn btn-primary" href="{{route('media.show' , [$media->id])}}" role="button">Review</a>
                         </td>
+                        <td>
+                            <a class="btn btn-primary" href="{{route('media.edit' , [$media->id])}}" role="button">Edit</a>
+                        </td>
                     </tr>
                 @endforeach
 

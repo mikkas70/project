@@ -15,82 +15,82 @@ class ProjectController extends Controller {
 
 
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		//Ir buscar todos os projectos
-		$projects = Project::all();
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        //Ir buscar todos os projectos
+        $projects = Project::all();
         $users = User::all();
 
-		return view('projects.index', compact('projects'), compact('users', 'medias'));
-	}
+        return view('projects.index', compact('projects'), compact('users', 'medias'));
+    }
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		$data = [
-		'name' => null,
-		'description' => null,
-		'homepage' => null
-		];
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        $data = [
+            'name' => null,
+            'description' => null,
+            'homepage' => null
+        ];
 
-		return view('projects.add', $data);
-	}
+        return view('projects.add', $data);
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store(Request $request)
-	{
-		$rules = [
-			'name' => 'required|min:10|unique:projects,name',
-			'description' => 'required|min:20'
-		];
-		if(strlen($request->get('homepage')) > 0){
-			$rules['homepage'] = 'required|url';
-		}
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+        $rules = [
+            'name' => 'required|min:10|unique:projects,name',
+            'description' => 'required|min:20'
+        ];
+        if(strlen($request->get('homepage')) > 0){
+            $rules['homepage'] = 'required|url';
+        }
 
-		$validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
 
-		if($validator->fails()){
-			return redirect()->route('projects.create')->withErrors($validator)->withInput();
-		}
+        if($validator->fails()){
+            return redirect()->route('projects.create')->withErrors($validator)->withInput();
+        }
 
-		$project = new Project;
-		$project->name = $request->get('name');
-		$project->description = $request->get('description');
-		$project->user()->associate(Auth::user());
-		$homepage = $request->get('homepage');
-		if($homepage){
-			$project->homepage = $homepage;
-		}
-		$message = ['message_success' => 'Project created successfully'];
+        $project = new Project;
+        $project->name = $request->get('name');
+        $project->description = $request->get('description');
+        $project->user()->associate(Auth::user());
+        $homepage = $request->get('homepage');
+        if($homepage){
+            $project->homepage = $homepage;
+        }
+        $message = ['message_success' => 'Project created successfully'];
 
-		if(!$project->save()){
-			$message = ['message_error' => 'Failed to create project'];
-		}
+        if(!$project->save()){
+            $message = ['message_error' => 'Failed to create project'];
+        }
 
-		return redirect()->route('projects.index')->with($message);
-	}
+        return redirect()->route('projects.index')->with($message);
+    }
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
         $project = Project::findOrFail($id);
         //TODO falta mandar comments
 
@@ -101,90 +101,87 @@ class ProjectController extends Controller {
 
         // mostrar pagina de um projecto
         return view('projects.singleProject', compact('project'), compact('medias', 'comments', 'users'));
-	}
+    }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		$project = Project::findOrFail($id);
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $project = Project::findOrFail($id);
 
-		// array para poder receber os campos do outro lado
-		return view('projects.edit', $project->toArray());
-	}
+        // array para poder receber os campos do outro lado
+        return view('projects.edit', compact('project'));
+    }
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update(Request $request , $id)
-	{
-	    $project = Project::findOrFail($id);
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update(Request $request , $id)
+    {
+        $project = Project::findOrFail($id);
 
         $rules = [
-          'title', 'required|min:10',
-          'description', 'required|min:20'
+            'name' => 'required|min:5|max:255',
+            'acronym' => 'max:255',
+            'description' => 'required|min:1|max:255',
+            'type' => 'max:255',
+            'theme' => 'max:255',
+            'keywords' => 'max:255',
+            'used_software' => 'max:255',
+            'used_hardware' => 'max:255',
+            'observations' => 'max:255',
+
         ];
 
-        // se for preenchido o homepage, tem de ser válido sendo um url
-        if(strlen($request->get('homepage')) > 0 ){
-            $rules['homepage'] = 'required|url';
-        }
+        $validator = Validator::make($request->all() , $rules);
 
-        if($request->get('title') != $project->title){
-            $rules['name'] = '|unique:projects, title';
-        }
-
-        $validator = Validator::make($request->all(), $rules);
-
-        //caso falhe, volta à mesma pagina com os certos erros
         if($validator->fails()){
             return redirect()->route('projects.edit', $id)->withErrors($validator)->withInput();
         }
 
-        $project->title = $request->get('title');
-        $project->description  = $request->get('description');
-        $homepage = $request->get('homepage');
+        $project->name = $request->name;
+        $project->acronym = $request->acronym;
+        $project->description = $request->description;
+        $project->type = $request->type;
+        $project->theme = $request->theme;
+        $project->keywords = $request->keywords;
+        $project->used_software = $request->used_software;
+        $project->used_hardware = $request->used_hardware;
+        $project->observations = $request->observations;
 
-        if($homepage){
-            $project->homepage = $homepage;
-        }else{
-            $project->homepage = null;
+        if(!$project->save())
+        {
+            $message = ['message_error' => 'Project could not be saved!y'];
+            return redirect()->route('projects.edit', $id)->withErrors($message)->withInput();
         }
 
-        $message = ['message_success' => 'Project saved successfully'];
+        $message = ['message_success' => 'Project edited successfully'];
+        return redirect()->route('projects.show', $id)->with($message);
+    }
 
-        if(!$project->save()){
-            $message = ['message_error' => 'Failed to save project'];
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        $project = Project::findOrFail($id);
+        $message = ['message_success' => 'Project removed successfully'];
+        if(!$project->delete()){
+            $message = ['message_error' => 'Failed to remove project'];
         }
 
-
-            return redirect()->route('projects.index')->with($message);
-
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		$project = Project::findOrFail($id);
-		$message = ['message_success' => 'Project removed successfully'];
-		if(!$project->delete()){
-			$message = ['message_error' => 'Failed to remove project'];
-		}
-
-		return redirect()->route('projects.index')->with($message);
-	}
+        return redirect()->route('projects.index')->with($message);
+    }
 
     public function getLastUpdated()
     {

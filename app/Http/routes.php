@@ -38,7 +38,7 @@ Route::post('comment/sendRequest/{id}', array('as' => 'comments.sendRequest', 'u
 Route::post('comment/approveContent/{id}', array('as' => 'editor.approveContent', 'uses' => 'EditorController@approveContent'));
 
 Route::post('media/approve/{id}', array('as' => 'media.approve', 'uses' => 'MediaController@approve'));
-Route::post('media/refuse/{id}', array('as' => 'media.refuse', 'uses' => 'MediaController@refuse'));
+Route::any('media/refuse/{id}', array('as' => 'media.refuse', 'uses' => 'MediaController@refuse'));
 
 
 Route::post('editor/tagsPanel/', array('as' => 'editor.tagsPanel', 'uses' => 'EditorController@tagsPanel'));
