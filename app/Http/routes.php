@@ -37,6 +37,7 @@ Route::post('comment/createComment/{id}', array('as' => 'comments.createComment'
 Route::post('comment/sendRequest/{id}', array('as' => 'comments.sendRequest', 'uses' => 'CommentController@sendRequest'));
 Route::post('comment/approveContent/{id}', array('as' => 'editor.approveContent', 'uses' => 'EditorController@approveContent'));
 
+
 Route::post('media/approve/{id}', array('as' => 'media.approve', 'uses' => 'MediaController@approve'));
 Route::any('media/refuse/{id}', array('as' => 'media.refuse', 'uses' => 'MediaController@refuse'));
 
@@ -47,3 +48,5 @@ Route::any('comment/deleteComment/{id}', array('as' => 'editor.deleteComment', '
 Route::put('comment/refuse/{id}', array('as' => 'comments.refuse', 'uses' => 'CommentController@refuse'));
 
 
+Route::get('media/submit/{id}', array('as' => 'media.submit', 'uses' => 'MediaController@submit'));
+Route::get('media/createMedia/{id}', array('as' => 'media.createMedia', 'uses' => 'MediaController@createMedia'));

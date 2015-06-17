@@ -21,11 +21,12 @@
             </div>
         @endif
         @if(count($comments))
-            <table class="table table-striped">
+            <table class="table table-condensed">
                 <thead>
                 <tr>
                     <th>Created by</th>
                     <th>Comment</th>
+                    <th>Status</th>
                     <th colspan="2" class="col-xs-1">Actions</th>
                 </tr>
                 </thead>
@@ -43,7 +44,16 @@
                                 <p style="color:gray">{{ $comment->user_name}} (Unauthenticated)<p>
                             @endif
                         </td>
-                        <td>{{ $comment->comment}}</td>
+                            <td>{{ $comment->comment}}</td>
+                        <td>
+                            @if($comment->approved_by != null && $comment->refusal_msg == null)
+                                <p style="color:green"> Approved </p>
+                            @elseif($comment->refusal_msg != null )
+                                <p style="color:red"> Rejected </p>
+                            @else
+                                <p> Waiting for approval </p>
+                            @endif
+                        </td>
                         <td>
                             <a class="btn btn-primary" href="{{route('comments.edit' , [$comment->id])}}" role="button">Edit</a>
                         </td>

@@ -29,6 +29,18 @@ class ProjectController extends Controller {
         return view('projects.index', compact('projects'), compact('users', 'medias'));
     }
 
+    public function delete($id)
+    {
+        echo"ola";
+        /* $project = Project::findOrFail($id);
+         $message = ['message_success' => 'Project removed successfully'];
+         if(!$project->delete()){
+             $message = ['message_error' => 'Failed to remove project'];
+         }
+
+         return redirect()->route('projects.index')->with($message);*/
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -172,16 +184,7 @@ class ProjectController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
-    {
-        $project = Project::findOrFail($id);
-        $message = ['message_success' => 'Project removed successfully'];
-        if(!$project->delete()){
-            $message = ['message_error' => 'Failed to remove project'];
-        }
 
-        return redirect()->route('projects.index')->with($message);
-    }
 
     public function getLastUpdated()
     {

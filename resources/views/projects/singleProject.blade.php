@@ -22,7 +22,7 @@
                 <td>
                     <p>Actions: </p>
                     <a class="btn btn-primary" href="{{route('projects.edit' , [$project->id])}}" role="button">Edit</a>
-                    <a class="btn btn-primary" href="{{route('projects.edit' , [$project->id])}}" role="button">Submit Content</a>
+                    <a class="btn btn-primary" href="{{route('media.submit', [$project->id])}}" role="button">Submit Media</a>
                 </td>
 
             @endif

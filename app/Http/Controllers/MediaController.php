@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Media;
+use App\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -27,10 +28,66 @@ class MediaController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
-	{
-		//
-	}
+    public function create(Request $request)
+    {
+
+    }
+
+    public function createMedia(Request $request, $id)
+    {
+        $rules = [
+            'title' => 'required|max:255',
+            'description' => 'required|max:600',
+            'alt' => 'required|max:255',
+        ];
+
+        $validator = Validator::make($request->all() , $rules);
+
+        if($validator->fails()){
+            return redirect()->route('media.submit', $id)->withErrors($validator)->withInput();
+        }
+
+        $media = new Media;
+        $media->project_id = $id;
+        $media->title =  $request->get('title');
+        $media->description =  $request->get('description');
+        $media->alt =  $request->get('alt');
+        $media->int_file =  "projects/".$request->get('filename');
+        $media->public_name =  "projects/".$request->get('filename');
+        $media->ext_url = $request->get('ext_url');
+
+
+        $type = strrchr($request->filename, ".");
+        if($type == ".jpg"){
+            $media->mime_type = "image/jpg";
+        }elseif($type == ".png"){
+            $media->mime_type = "image/png";
+        }elseif($type == ".pdf"){
+            $media->mime_type = "document/pdf";
+        }elseif($media->url != null){
+            $media->mime_type = "video/url";
+        }
+
+        $media->created_by = Auth::user()->id;
+        $media->state = 1;
+        $media->flags = 0;
+
+        $message = ['message_success' => 'Media was successfully sent for approval'];
+
+        if(!$media->save()){
+            $message = ['message_error' => 'Failed to create media'];
+            return redirect()->route('media.submit', $id)->withErrors($validator)->withInput();
+        }
+
+        return redirect()->route('projects.show', $id)->with($message);
+
+    }
+
+    public function submit($id)
+    {
+        $project = Project::findOrFail($id);
+        return view('media.submit', compact('project'));
+    }
 
 	/**
 	 * Store a newly created resource in storage.

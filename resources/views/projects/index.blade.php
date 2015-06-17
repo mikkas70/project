@@ -53,7 +53,17 @@
             <td>
                 <a class="btn btn-primary" href="{{route('projects.show' , [$project->id])}}" role="button">Visit Project</a>
             </td>
-
+            @if(Auth::check() && Auth::user()->role >= 2 )
+                <td>
+                    <a class="btn btn-primary" href="{{route('projects.edit' , [$project->id])}}" role="button">Edit</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary" href="{{route('projects.destroy' , [$project->id])}}" role="button">Review</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger" href="{{route('projects.delete' , [$project->id])}}" role="button">Delete</a>
+                </td>
+            @endif
         </tr>
         @endforeach
         

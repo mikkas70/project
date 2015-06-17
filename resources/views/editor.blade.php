@@ -18,7 +18,7 @@
                             <a href="{{ route('media.index') }}" class="btn btn-primary" style="color:white; margin-left: 10px">Media</a>
                         </td>
                         <td>
-                            <a href="{{ route('editor.index') }}" class="btn btn-primary" style="color:white; margin-left: 10px">Projects</a>
+                            <a href="{{ route('projects.index') }}" class="btn btn-primary" style="color:white; margin-left: 10px">Projects</a>
                         </td>
                         <td>
                             <a href="{{ route('editor.tagsPanel') }}" class="btn btn-primary" style="color:white; margin-left: 10px">Project Tags</a>
