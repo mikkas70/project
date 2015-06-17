@@ -7,14 +7,14 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <form class="form-horizontal" role="form" method="get" action="{{route('users.show', 'false')}}">
+                <form class="form-horizontal" role="form" method="get" action="{{route('users.show')}}">
                     <table class="table table-condensed">
                         <tr>
                             <th style="vertical-align: middle">
                                 Search:
                             </th>
                             <th>
-                                <input type="text" class="form-control" name="name" value="">
+                                <input type="text" class="form-control" name="search" value="">
                             </th>
                             <th style="vertical-align: middle">
                                 Sort by:
@@ -30,8 +30,8 @@
                             </th>
                             <th>
                                 <select class="form-control" name="sort_type">
-                                    <option value="asc" >Ascendant</option>
-                                    <option value="desc">Descendant</option>
+                                    <option value="asc" selected >Ascendant</option>
+                                    <option value="desc" >Descendant</option>
                                 </select>
                             </th>
                             <th style="vertical-align: middle">

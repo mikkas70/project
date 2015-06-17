@@ -119,14 +119,23 @@ class UserController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show(Request $request, $firstTime)
+	public function show(Request $request)
     {
-        if($request && !$firstTime)
-            filter($request);
+        $search = $request->get('search');
+        $sortby = $request->get('sort_by', 'Name');
+        $totalPerPage = $request->get('results', 5);
+        $order =$request->get('sort_type', 'ASC');
 
-        $users = User::orderBy('name' , 'asc')->paginate(5);
+        if ($search == null) {
+            $users = User::orderBy($sortby, $order)->paginate($totalPerPage);
+            $users->appends(['search' => $search, 'sort_by' => $sortby, 'results' => $totalPerPage, 'sort_type' => $order])->render();
 
+        }else{
 
+            $users = User::where('name', 'like', '%'.$search.'%')->orderBy($sortby, $order)->paginate($totalPerPage);
+            //$users = User::all();
+            $users->appends(['search' => $search, 'sort_by' => $sortby, 'results' => $totalPerPage, 'sort_type' => $order])->render();
+        }
 
         foreach($users as $user)
         {

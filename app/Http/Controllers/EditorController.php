@@ -46,9 +46,10 @@ class EditorController extends Controller {
 
     public function projectsPanel()
     {
-        $projects = Project::all();
+        echo "ola";
+        /*$projects = Project::all();
         $users = User::all();
-        return view('editor.projectSection' , compact('projects', 'users'));
+        return view('editor.projectSection' , compact('projects', 'users'));*/
     }
 
 

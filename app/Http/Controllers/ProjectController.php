@@ -20,11 +20,24 @@ class ProjectController extends Controller {
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //Ir buscar todos os projectos
-        $projects = Project::all();
         $users = User::all();
+
+        $search = $request->get('search');
+        $sortby = $request->get('sort_by', 'Name');
+        $totalPerPage = $request->get('results', 10);
+        $order = $request->get('sort_type', 'ASC');
+
+        if ($search == null) {
+            $projects = Project::orderBy($sortby, $order)->paginate($totalPerPage);
+            $projects->appends(['search' => $search, 'sort_by' => $sortby, 'results' => $totalPerPage, 'sort_type' => $order])->render();
+
+        }else{
+            $projects = Project::where('name', 'like', '%'.$search.'%')->orderBy($sortby, $order)->paginate($totalPerPage);
+            //$users = User::all();
+            $projects->appends(['search' => $search, 'sort_by' => $sortby, 'results' => $totalPerPage, 'sort_type' => $order])->render();
+        }
 
         return view('projects.index', compact('projects'), compact('users', 'medias'));
     }
@@ -77,7 +90,7 @@ class ProjectController extends Controller {
 
         $message = ['message_success' => 'Project approved successfully'];
 
-        return redirect()->route('projects.index')->with($message);
+        return redirect()->route('editor.projectsPanel')->with($message);
     }
 
     /**
@@ -127,7 +140,6 @@ class ProjectController extends Controller {
     public function show($id)
     {
         $project = Project::findOrFail($id);
-        //TODO falta mandar comments
 
         $medias = Project::find(1)->media()->where('project_id', '=', $id)->get();
         $comments = Project::find(1)->comments()->where('project_id', '=', $id)->orderBy('created_at', 'DESC')->get();

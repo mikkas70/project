@@ -13,6 +13,7 @@
                             aria-hidden="true">&times;</span></button>
                 {{Session::get('message_error')}}
             </div>
+
         @elseif(Session::has('message_success'))
 
             <div class="alert alert-success alert-dismissible" role="alert">
