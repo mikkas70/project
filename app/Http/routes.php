@@ -21,6 +21,9 @@ Route::resource('users', 'UserController');
 Route::resource('admin', 'AdminController');
 Route::resource('editor', 'EditorController');
 Route::resource('comments' , 'CommentController');
+Route::resource('project_tag' , 'ProjectTagController');
+Route::resource('media' , 'MediaController');
+
 
 
 Route::controllers([
@@ -34,9 +37,13 @@ Route::post('comment/createComment/{id}', array('as' => 'comments.createComment'
 Route::post('comment/sendRequest/{id}', array('as' => 'comments.sendRequest', 'uses' => 'CommentController@sendRequest'));
 Route::post('comment/approveContent/{id}', array('as' => 'editor.approveContent', 'uses' => 'EditorController@approveContent'));
 
+Route::post('media/approve/{id}', array('as' => 'media.approve', 'uses' => 'MediaController@approve'));
+Route::post('media/refuse/{id}', array('as' => 'media.refuse', 'uses' => 'MediaController@refuse'));
 
 
+Route::post('editor/tagsPanel/', array('as' => 'editor.tagsPanel', 'uses' => 'EditorController@tagsPanel'));
 Route::any('comment/rejectComment/{id}', array('as' => 'editor.rejectComment', 'uses' => 'EditorController@rejectComment'));
+Route::any('comment/deleteComment/{id}', array('as' => 'editor.deleteComment', 'uses' => 'EditorController@deleteComment'));
 Route::put('comment/refuse/{id}', array('as' => 'comments.refuse', 'uses' => 'CommentController@refuse'));
 
 

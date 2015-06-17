@@ -230,7 +230,6 @@ class UserController extends Controller {
 
 
                     $message = ['message_success' => 'User edited successfully'];
-
                     if(!$user->save()){
                         $message = ['message_error' => 'Failed to edit user'];
                     }

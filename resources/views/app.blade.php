@@ -50,7 +50,7 @@
                     <a href="{{ route('projects.index')}}">Projects list</a>
                 </li>
                 <li>
-                    <a href="{{route('users.show', 'true')}}">User list</a>
+                    <a href="{{route('users.show')}}">User list</a>
                 </li>
 
                 <li>

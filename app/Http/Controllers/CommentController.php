@@ -206,9 +206,19 @@ class CommentController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
+
 	public function destroy($id)
 	{
-		//
+		$comment = Comment::findOrFail($id);
+
+
+        if(!$comment->delete()){
+            $message = ['message_error' => 'The comment could not be deleted.'];
+            return redirect()->route('editor.index', $id)->withErrors($message);
+        }
+
+        $message = ['message_success' => 'The comment was deleted successfully'];
+        return redirect()->route('editor.index', $id)->with($message);
 	}
 
 }
