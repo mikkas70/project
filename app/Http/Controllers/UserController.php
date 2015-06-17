@@ -123,7 +123,7 @@ class UserController extends Controller {
     {
         $search = $request->get('search');
         $sortby = $request->get('sort_by', 'Name');
-        $totalPerPage = $request->get('results', 5);
+        $totalPerPage = $request->get('results', 10);
         $order =$request->get('sort_type', 'ASC');
 
         if ($search == null) {

@@ -36,7 +36,7 @@
                         <th>
                             <select class="form-control" name="sort_by" >
                                 <option value="name" >Name</option>
-                                <option value="role" >Author</option>
+                                <option value="theme" >Theme</option>
                             </select>
                         </th>
                         <th style="vertical-align: middle">
@@ -54,7 +54,7 @@
                         <th>
                             <select class="form-control" name="results">
                                 <option value="5" >5</option>
-                                <option value="10" >10</option>
+                                <option value=" selected" >10</option>
                                 <option value="20" >20</option>
                                 <option value="50">50</option>
                             </select>
@@ -79,6 +79,7 @@
     <thead>
         <tr>
             <th>Project Name</th>
+            <th>Theme</th>
             <th>Author</th>
             <th colspan="2" class="col-xs-1">Actions</th>
         </tr>
@@ -90,6 +91,7 @@
     	@foreach($projects as $project)
             <tr>
             <td>{{ $project->name}}</td>
+                <td>{{ $project->theme}}</td>
             <td>
                 @foreach($users as $user)
                     @if($user->id == $project->created_by)

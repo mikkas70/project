@@ -40,7 +40,7 @@
                             <th>
                                 <select class="form-control" name="results">
                                     <option value="5" >5</option>
-                                    <option value="10" >10</option>
+                                    <option value="10" selected >10</option>
                                     <option value="20" >20</option>
                                     <option value="50">50</option>
                                 </select>
@@ -78,7 +78,6 @@
                             <th>User name</th>
                             <th>Role</th>
                             <th style="text-align: center">Number of Projects</th>
-                            <th colspan="2" class="col-xs-1">Actions</th>
                         </tr>
                         </thead>
 

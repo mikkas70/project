@@ -35,7 +35,6 @@ class ProjectController extends Controller {
 
         }else{
             $projects = Project::where('name', 'like', '%'.$search.'%')->orderBy($sortby, $order)->paginate($totalPerPage);
-            //$users = User::all();
             $projects->appends(['search' => $search, 'sort_by' => $sortby, 'results' => $totalPerPage, 'sort_type' => $order])->render();
         }
 
