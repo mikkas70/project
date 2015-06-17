@@ -57,7 +57,7 @@
                                             @if($media->approved_by != null)
                                                 <p style="color:green">Approved</p>
                                             @elseif($media->refusal_msg != null)
-                                                <p style="color:red">Refused</p>
+                                                <p style="color:red">Refused: {{$media->refusal_msg}}</p>
                                             @else
                                                 <p> Waiting for Approval</p>
 
@@ -75,50 +75,22 @@
                                     <td>
                                         <input type="text" class="form-control" name="refusal_msg" placeholder="Enter the refusal reason here" value="{{old('refusal_msg')}}">
                                     </td>
-                                    <td>
-
-                                    </td>
                                 </tr>
                                 @endif
-                            </table>
+                    </table>
 
-                                    <td>
-                                        <a href="{{route('media.index')}}" class="btn btn-primary">Cancel</a>                                    </td>
-                                    <td>
+
+                            @if($media->approved_by == null && $media->refusal_msg == null)
+                                <button type="submit" class="btn btn-danger">Refuse</button>
+                            @endif
 
                                         @if($media->approved_by == null && $media->refusal_msg == null)
-                                            <button type="submit" class="btn btn-danger">Refuse </button>
+                                            <a href="{{route('media.approve', [$media->id])}}" class="btn btn-success">Approve</a>
                                         @endif
-                                    </td>
-                                </form>
 
-                                        <td>
-                                        @if($media->approved_by == null && $media->refusal_msg == null)
-                                            <form action="{{route('media.approve' , [$media->id])}}" method="post">
-                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <button type="submit" class="btn btn-success">Approve</button>
-                                            </form>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <form action="{{route('media.destroy' , [$media->id])}}" method="post">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="_method" value="DELETE" />
-                                            <button type="submit" class="btn btn-danger">
-                                                Delete
-                                            </button>
-                                        </form>
-                                    </td>
+                                <a href="{{route('media.index')}}" class="btn">Cancel</a>
 
-
-
-
-
-
-
-
-
-
+                            </form>
 
                     </div>
                 </div>

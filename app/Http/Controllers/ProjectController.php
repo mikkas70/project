@@ -29,18 +29,18 @@ class ProjectController extends Controller {
         return view('projects.index', compact('projects'), compact('users', 'medias'));
     }
 
-    public function delete($id)
-    {
-        echo"ola";
-        /* $project = Project::findOrFail($id);
-         $message = ['message_success' => 'Project removed successfully'];
+
+    public function destroy($id){
+         $project = Project::findOrFail($id);
          if(!$project->delete()){
              $message = ['message_error' => 'Failed to remove project'];
+             return redirect()->route('editor.projectsPanel')->withErrors($message);
          }
 
-         return redirect()->route('projects.index')->with($message);*/
-    }
 
+        $message = ['message_success' => 'Project removed successfully'];
+        return redirect()->route('editor.projectsPanel')->with($message);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -55,6 +55,29 @@ class ProjectController extends Controller {
         ];
 
         return view('projects.add', $data);
+    }
+
+    public function review($id){
+        $project = Project::findOrFail($id);
+
+        return view('editor.projectReview', compact('project'));
+    }
+
+    public function approve($id){
+
+        $project = Project::findOrFail($id);
+
+        $project->approved_by = Auth::user()->id;
+
+        if(!$project->save())
+        {
+            $message = ['message_error' => 'Project could not be approved'];
+            return redirect()->route('editor.projectReview' , [$project->id])->withErrors($message);
+        }
+
+        $message = ['message_success' => 'Project approved successfully'];
+
+        return redirect()->route('projects.index')->with($message);
     }
 
     /**
@@ -176,6 +199,13 @@ class ProjectController extends Controller {
 
         $message = ['message_success' => 'Project edited successfully'];
         return redirect()->route('projects.show', $id)->with($message);
+    }
+
+    public function projectsPanel()
+    {
+        $projects = Project::all();
+        $users = User::all();
+        return view('editor.projectSection' , compact('projects', 'users'));
     }
 
     /**

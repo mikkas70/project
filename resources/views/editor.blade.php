@@ -18,10 +18,15 @@
                             <a href="{{ route('media.index') }}" class="btn btn-primary" style="color:white; margin-left: 10px">Media</a>
                         </td>
                         <td>
-                            <a href="{{ route('projects.index') }}" class="btn btn-primary" style="color:white; margin-left: 10px">Projects</a>
+                            <form action="{{route('editor.projectsPanel')}}" method="post">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="btn btn-primary">
+                                    Projects
+                                </button>
+                            </form>
                         </td>
                         <td>
-                            <a href="{{ route('editor.tagsPanel') }}" class="btn btn-primary" style="color:white; margin-left: 10px">Project Tags</a>
+                            <a href="{{ route('editor.projectsPanel') }}" class="btn btn-primary" style="color:white; margin-left: 10px">Project Tags</a>
                         </td>
                     </table>
             </div>

@@ -32,16 +32,25 @@ class EditorController extends Controller {
 
     public function show()
     {
-        $tags = ProjectTag::all();
+
+        //$tags = ProjectTag::all();
         //$users = User::all();
         return view('editor.editorPanel', compact('tags'));
     }
 
     public function tagsPanel()
     {
-        $tags = ProjectTag::all();
-        return view('editor.tagsPanel' , compact('tags'));
+       /* $tags = ProjectTag::all();
+        return view('editor.tagsPanel' , compact('tags'));*/
     }
+
+    public function projectsPanel()
+    {
+        $projects = Project::all();
+        $users = User::all();
+        return view('editor.projectSection' , compact('projects', 'users'));
+    }
+
 
 
     public function approveContent($id)

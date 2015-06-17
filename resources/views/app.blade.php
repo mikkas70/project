@@ -59,6 +59,8 @@
                             <a href="{{ route('admin.index') }}" style="color: green;">Admin Panel</a>
                         @elseif(Auth::user()->role == 2)
                             <a href="{{ route('editor.index') }}" style="color: green;">Editor Panel</a>
+                        @elseif(Auth::user()->role == 1)
+                            <a href="{{ route('author.index') }}" style="color: green;">Author Panel</a>
                         @endif
                     @endif
                 </li>

@@ -32,7 +32,11 @@
                 </thead>
                 <tbody>
                 @foreach($comments as $comment)
-                    <tr>
+                    @if($comment->approved_by != null)
+                        <tr style="background-color: rgba(0, 255, 0, 0.30)">
+                            @elseif($comment->refusal_msg != null)
+                        <tr style="background-color: rgba(255, 0, 0, 0.30)">
+                            @endif
                         <td>
                             @if($comment->user_id != null)
                                 @foreach($users as $user)
@@ -47,11 +51,11 @@
                             <td>{{ $comment->comment}}</td>
                         <td>
                             @if($comment->approved_by != null && $comment->refusal_msg == null)
-                                <p style="color:green"> Approved </p>
+                                Approved
                             @elseif($comment->refusal_msg != null )
-                                <p style="color:red"> Rejected </p>
+                               Refused: {{ $comment->refusal_msg }}
                             @else
-                                <p> Waiting for approval </p>
+                                 Waiting for approval
                             @endif
                         </td>
                         <td>

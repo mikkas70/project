@@ -31,15 +31,19 @@
                 </thead>
                 <tbody>
                 @foreach($medias as $media)
-                    <tr>
+                    @if($media->approved_by != null)
+                        <tr style="background-color: rgba(0, 255, 0, 0.30)">
+                            @elseif($media->refusal_msg != null)
+                        <tr style="background-color: rgba(255, 0, 0, 0.30)">
+                    @endif
                         <td>
                             {{$media->title}}
                         </td>
                         <td>
                             @if($media->approved_by != null)
-                                <p style="color:green">Approved</p>
+                                Approved
                             @elseif($media->refusal_msg != null)
-                                <p style="color:red">Refused: {{$media->refusal_msg}}</p>
+                                Refused: {{$media->refusal_msg}}
                             @else
                                 <p>Waiting for approval</p>
                             @endif
@@ -49,6 +53,15 @@
                         </td>
                         <td>
                             <a class="btn btn-primary" href="{{route('media.edit' , [$media->id])}}" role="button">Edit</a>
+                        </td>
+                        <td>
+                            <form action="{{route('media.destroy' , [$media->id])}}" method="post">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="_method" value="DELETE" />
+                                <button type="submit" class="btn btn-danger">
+                                    Delete
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

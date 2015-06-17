@@ -1,9 +1,5 @@
-@if(Auth::check() && Auth::user()->role >= 2 )
-        @extends('editor')
-        @section('editor_content')
-@else
-    @section('content')
-@endif
+@extends('app')
+@section('content')
 
 
 <div class="container">
@@ -41,7 +37,7 @@
     <tbody>
 
     	@foreach($projects as $project)
-        <tr>
+            <tr>
             <td>{{ $project->name}}</td>
             <td>
                 @foreach($users as $user)
@@ -50,18 +46,29 @@
                     @endif
                 @endforeach
             </td>
+
             <td>
                 <a class="btn btn-primary" href="{{route('projects.show' , [$project->id])}}" role="button">Visit Project</a>
             </td>
+
             @if(Auth::check() && Auth::user()->role >= 2 )
                 <td>
                     <a class="btn btn-primary" href="{{route('projects.edit' , [$project->id])}}" role="button">Edit</a>
                 </td>
+                @if($project->approved_by == null && $project->refusal_msg == null)
                 <td>
-                    <a class="btn btn-primary" href="{{route('projects.destroy' , [$project->id])}}" role="button">Review</a>
+                    <a class="btn btn-primary" href="{{route('projects.review' , [$project->id])}}" role="button">Review</a>
                 </td>
+                @endif
                 <td>
-                    <a class="btn btn-danger" href="{{route('projects.delete' , [$project->id])}}" role="button">Delete</a>
+                    <form action="{{route('projects.destroy' , [$project->id])}}" method="post">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="_method" value="DELETE" />
+                        <button type="submit" class="btn btn-danger">
+                            Delete
+                        </button>
+                    </form>
+                    <!--<a class="btn btn-danger" href="{{route('projects.delete' , [$project->id])}}" role="button">Delete</a> -->
                 </td>
             @endif
         </tr>
