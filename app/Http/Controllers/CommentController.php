@@ -169,6 +169,16 @@ class CommentController extends Controller {
 
         $comment->comment = $request->comment;
 
+        if(Auth::user()->role < 2 && Auth::user()->id == $comment->user_id)
+        {
+            $comment->approved_by = null;
+            $comment->refusal_msg = null;
+        }else{
+            $comment->approved_by= Auth::user()->id;
+            $comment->refusal_msg = null;
+        }
+
+
         if(!$comment->save()){
             $message = ['message_error' => 'Could not edit the comment.'];
             return redirect()->route('editor.rejectComment', $id)->withErrors($message)->withInput();

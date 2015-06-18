@@ -80,14 +80,14 @@
                     </table>
 
 
-                            @if($media->approved_by == null && $media->refusal_msg == null)
-                                <button type="submit" class="btn btn-danger">Refuse</button>
-                            @endif
+
 
                                         @if($media->approved_by == null && $media->refusal_msg == null)
                                             <a href="{{route('media.approve', [$media->id])}}" class="btn btn-success">Approve</a>
                                         @endif
-
+                                @if($media->approved_by == null && $media->refusal_msg == null)
+                                    <button type="submit" class="btn btn-danger">Refuse</button>
+                                @endif
                                 <a href="{{route('media.index')}}" class="btn">Cancel</a>
 
                             </form>

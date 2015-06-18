@@ -202,6 +202,16 @@ class ProjectController extends Controller {
         $project->used_hardware = $request->used_hardware;
         $project->observations = $request->observations;
 
+        if(Auth::user()->role < 2 && Auth::user()->id == $project->created_by)
+        {
+            $project->approved_by = null;
+            $project->refusal_msg = null;
+        }else{
+            $project->approved_by = Auth::user()->id;
+            $project->refusal_msg = null;
+        }
+
+
         if(!$project->save())
         {
             $message = ['message_error' => 'Project could not be saved!y'];

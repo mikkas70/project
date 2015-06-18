@@ -30,6 +30,7 @@ class AuthorController extends Controller {
         $comments = Comment::where('user_id', '=', Auth::user()->id)->get();
         $medias = Media::where('created_by', '=', Auth::user()->id)->get();
         $users = User::all();
+
         return view('author.authorPanel', compact('projects', 'comments', 'medias', 'users'));
     }
 

@@ -20,7 +20,12 @@ class MediaController extends Controller {
     {
         $medias = Media::all();
 
-        return view('editor.mediaSection' , compact('medias'));
+        if(Auth::user()->role >= 2)
+        {
+            return view('editor.mediaSection' , compact('medias'));
+        }
+
+        return redirect()->route('author.index');
     }
 
     /**
@@ -71,6 +76,7 @@ class MediaController extends Controller {
         $media->created_by = Auth::user()->id;
         $media->state = 1;
         $media->flags = 0;
+        $media->approved_by = null;
 
         $message = ['message_success' => 'Media was successfully sent for approval'];
 
@@ -86,6 +92,8 @@ class MediaController extends Controller {
     public function submit($id)
     {
         $project = Media::findOrFail($id);
+
+
         return view('media.submit', compact('project'));
     }
 
@@ -120,7 +128,10 @@ class MediaController extends Controller {
      */
     public function edit($id)
     {
-        //
+        $media = Media::findOrFail($id);
+
+        // array para poder receber os campos do outro lado
+        return view('media.edit', compact('media'));
     }
 
     /**
@@ -134,26 +145,59 @@ class MediaController extends Controller {
         $media = Media::findOrFail($id);
 
         $rules = [
-            'title' => 'required|min:5|max:100',
-            'description' => 'required|min:10|max:400',
+            'title' => 'required|max:255',
+            'description' => 'required|max:600',
+            'alt' => 'required|max:255',
         ];
 
         $validator = Validator::make($request->all() , $rules);
 
         if($validator->fails()){
-            return redirect()->route('media.show', $id)->withErrors($validator)->withInput();
+            return redirect()->route('media.edit', $id)->withErrors($validator)->withInput();
         }
 
         $media->title = $request->title;
         $media->description = $request->description;
+        $media->title =  $request->title;
+        $media->description =  $request->description;
+        $media->alt =  $request->alt;
+        $media->int_file =  "projects/".$request->filename;
+        $media->public_name =  "projects/".$request->filename;
+        $media->ext_url = $request->ext_url;
+
+        $type = strrchr($request->filename, ".");
+        if($type == ".jpg"){
+            $media->mime_type = "image/jpg";
+        }elseif($type == ".png"){
+            $media->mime_type = "image/png";
+        }elseif($type == ".pdf"){
+            $media->mime_type = "document/pdf";
+        }elseif($media->url != null){
+            $media->mime_type = "video/url";
+        }
+
+        $media->state = 1;
+        $media->flags = 0;
+
+        if(Auth::user()->role < 2 && Auth::user()->id == $media->created_by)
+        {
+            $media->approved_by = null;
+            $media->refusal_msg = null;
+        }else{
+            $media->approved_by = Auth::user()->id;
+            $media->refusal_msg = null;
+        }
+
+
 
         if(!$media->save())
         {
-            $message = ['message_error' => 'User edited successfully'];
-            return redirect()->route('media.show', $id)->withErrors($message)->withInput();
+            $message = ['message_error' => 'Failed to update media!'];
+            return redirect()->route('media.edit', $id)->withErrors($message)->withInput();
         }
 
         $message = ['message_success' => 'Media edited successfully'];
+
         return redirect()->route('media.index', $id)->with($message);
     }
 
@@ -166,6 +210,7 @@ class MediaController extends Controller {
     public function destroy($id)
     {
         $media = Media::findOrFail($id);
+
 
         if(!$media->delete()){
             $message = ['message_error' => 'The media could not be deleted.'];
