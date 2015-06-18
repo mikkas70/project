@@ -22,9 +22,58 @@
                 {{Session::get('message_success')}}
             </div>
         @endif
-
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <form class="form-horizontal" role="form" method="get" action="{{route('editor.index')}}">
+                        <table class="table table-condensed">
+                            <tr>
+                                <th style="vertical-align: middle">
+                                    Search:
+                                </th>
+                                <th>
+                                    <input type="text" class="form-control" name="search" value="">
+                                </th>
+                                <th style="vertical-align: middle">
+                                    Sort by:
+                                </th>
+                                <th>
+                                    <select class="form-control" name="sort_by" >
+                                        <option value="comment" >comment</option>
+                                        <option value="state" >status</option>
+                                    </select>
+                                </th>
+                                <th style="vertical-align: middle">
+                                    Sort type:
+                                </th>
+                                <th>
+                                    <select class="form-control" name="sort_type">
+                                        <option value="asc" selected >Ascendant</option>
+                                        <option value="desc" >Descendant</option>
+                                    </select>
+                                </th>
+                                <th style="vertical-align: middle">
+                                    Results per page:
+                                </th>
+                                <th>
+                                    <select class="form-control" name="results">
+                                        <option value="5" >5</option>
+                                        <option value="10" selected >10</option>
+                                        <option value="20" >20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </th>
+                                <th>
+                                    <button type="submit" class="btn btn-primary">
+                                        Search
+                                    </button>
+                                </th>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
         @if(count($comments))
-            <table class="table table-condensed">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>Created by</th>
@@ -101,7 +150,9 @@
 
                 </tbody>
             </table>
-        @else
+                {!! $comments->render() !!}
+
+            @else
             <p class="well">There are no comments waiting for approval.</p>
         @endif
     </div>

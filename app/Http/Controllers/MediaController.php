@@ -199,6 +199,7 @@ class MediaController extends Controller {
         }else{
             $media->approved_by = Auth::user()->id;
             $media->refusal_msg = null;
+            $media->state = 1;
         }
 
 

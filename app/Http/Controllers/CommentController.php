@@ -32,6 +32,7 @@ class CommentController extends Controller {
 		//
 	}
 
+    // função à parte devido ao receber id
     public function createComment(Request $request, $id){
 
         Project::findOrFail($id);
@@ -173,11 +174,14 @@ class CommentController extends Controller {
         {
             $comment->approved_by = null;
             $comment->refusal_msg = null;
+            $comment->state = 0;
         }else{
             $comment->approved_by= Auth::user()->id;
             $comment->refusal_msg = null;
+            $comment->state = 1;
         }
 
+        $comment->state = 0;
 
         if(!$comment->save()){
             $message = ['message_error' => 'Could not edit the comment.'];

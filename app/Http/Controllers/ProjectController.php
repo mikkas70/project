@@ -210,6 +210,7 @@ class ProjectController extends Controller {
         }else{
             $project->approved_by = Auth::user()->id;
             $project->refusal_msg = null;
+            $project->state = 1;
         }
 
 

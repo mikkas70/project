@@ -118,7 +118,7 @@
 
                     </tbody>
                 </table>
-
+                    {!! $projects->render() !!}
                 @else
                 <p class="well">There's no media waiting for approval.</p>
             @endif

@@ -23,10 +23,25 @@ class EditorController extends Controller {
         $this->middleware('auth');
     }
 
-	public function index()
+	public function index(Request $request)
 	{
         $comments = Comment::all();
         $users = User::all();
+
+        $search = $request->get('search');
+        $sortby = $request->get('sort_by', 'comment');
+        $totalPerPage = $request->get('results', 10);
+        $order = $request->get('sort_type', 'ASC');
+
+        if ($search == null) {
+            $comments = Comment::orderBy($sortby, $order)->paginate($totalPerPage);
+            $comments->appends(['search' => $search, 'sort_by' => $sortby, 'results' => $totalPerPage, 'sort_type' => $order])->render();
+
+        }else{
+            $comments = Comment::where('comment', 'like', '%'.$search.'%')->orderBy($sortby, $order)->paginate($totalPerPage);
+            $comments->appends(['search' => $search, 'sort_by' => $sortby, 'results' => $totalPerPage, 'sort_type' => $order])->render();
+        }
+
         return view('editor.editorPanel', compact('comments', 'users'));
     }
 
