@@ -32,29 +32,52 @@
                     </thead>
                     <tbody>
                     @foreach($project_tags as $project_tag)
-                        <tr>
-                            <td>
-                                {{$tags[$project_tag->id]}}
-                            </td>
-                            <td>
-                                {{$projects[$project_tag->id]}}
-                            </td>
-                            <td>
-                                @if($project_tag->state == 0)
-                                    Waiting for approval
-                                @elseif($project_tag->state == 1)
-                                    Approved
+                        @if($project_tag->state == 1)
+                            <tr style="background-color: rgba(0, 255, 0, 0.30)">
                                 @elseif($project_tag->state == 2)
-                                    Refused
+                            <tr style="background-color: rgba(255, 0, 0, 0.30)">
+                        @else
+                            <tr>
                                 @endif
-                            </td>
-                        </tr>
-                    @endforeach
+                                <td>
+                                    {{$tags[$project_tag->id]}}
+                                </td>
+                                <td>
+                                    {{$projects[$project_tag->id]}}
+                                </td>
+                                <td>
+                                    @if($project_tag->state == 0)
+                                        Waiting for approval
+                                    @elseif($project_tag->state == 1)
+                                        Approved
+                                    @elseif($project_tag->state == 2)
+                                        Refused
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($project_tag->state == 0)
+                                        <a class="btn btn-success" href="{{route('project_tag.approve' , [$project_tag->id])}}" role="button">Approve</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-warning" href="{{route('project_tag.refuse' , [$project_tag->id])}}" role="button">Refuse</a>
+                                    @endif
+                                </td>
+                                <td>
+                                    <form action="{{route('project_tag.destroy' , [$project_tag->id])}}" method="post">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <input type="hidden" name="_method" value="DELETE" />
+                                        <button type="submit" class="btn btn-danger">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
 
                     </tbody>
                 </table>
             @else
-                <p class="well">There's no media waiting for approval.</p>
+                <p class="well">There are no project tags.</p>
             @endif
         </div>
     </div>

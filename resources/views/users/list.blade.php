@@ -23,6 +23,8 @@
                                 <select class="form-control" name="sort_by" >
                                     <option value="name" >Name</option>
                                     <option value="role" >Role</option>
+                                    <option value="position">Position</option>
+                                    <option value="personal_url" >Personal URL</option>
                                 </select>
                             </th>
                             <th style="vertical-align: middle">
@@ -75,16 +77,25 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
+                            <th>Photo</th>
                             <th>User name</th>
+                            <th>Email</th>
+                            <th>Position</th>
+                            <th>Personal URL</th>
                             <th>Role</th>
-                            <th style="text-align: center">Number of Projects</th>
+                            <th style="text-align: center">Actions</th>
                         </tr>
                         </thead>
 
                         <tbody>
                         @foreach($users as $user)
+                            <img src="../{{$user->photo_url}}">
                             <tr>
+                                <td> </td>
                                 <td>{{ $user->name}}</td>
+                                <td>{{ $user->email}}</td>
+                                <td>{{ $user->position}}</td>
+                                <td><a href="{{$user->profile_url}}">{{ $user->profile_url}}</a></td>
                                 <td>
                                     @if($user->role == 1)
                                         <p>Author</p>

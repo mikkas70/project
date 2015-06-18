@@ -133,7 +133,7 @@ class ProjectTagController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -147,9 +147,20 @@ class ProjectTagController extends Controller
         //
     }
 
-    public function refuse(Request $request, $id)
+    public function refuse($id)
     {
-        //
+        $project_tag = ProjectTag::findOrFail($id);
+
+        $project_tag->state = 2;
+        $project_tag->approved_by = null;
+
+        if(!$project_tag->save()){
+            $message = ['message_error' => 'The project tag could not be refused.'];
+            return redirect()->route('project_tag.index' , $id)->withErrors($message);
+        }
+
+        $message = ['message_success' => 'The project tag was refused successfully'];
+        return redirect()->route('project_tag.index', $id)->with($message);
     }
 
     /**
@@ -160,7 +171,31 @@ class ProjectTagController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $project_tag = ProjectTag::findOrFail($id);
+
+
+        if(!$project_tag->delete()){
+            $message = ['message_error' => 'The project tag could not be deleted.'];
+            return redirect()->route('project_tag.index', $id)->withErrors($message);
+        }
+
+        $message = ['message_success' => 'The project tag was deleted successfully'];
+        return redirect()->route('project_tag.index', $id)->with($message);
     }
 
+    public function approve($id){
+
+        $project_tag = ProjectTag::findOrFail($id);
+
+        $project_tag->approved_by = Auth::user()->id;
+        $project_tag->state = 1;
+
+        if(!$project_tag->save()) {
+            $message = ['message_error' => 'Project tag could not be approved'];
+            return redirect()->route('project_tag.index' , $id)->withErrors($message);
+        }
+
+        $message = ['message_success' => 'Project tag approved successfully'];
+        return redirect()->route('project_tag.index', $id)->with($message);
+    }
 }

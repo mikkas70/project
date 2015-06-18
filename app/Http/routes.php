@@ -66,6 +66,9 @@ Route::get('project_tag/{tag_id}/addToProject/{proj_id}', array('as' => 'project
 Route::get('project_tag/{tag_id}/removeFromProject/{proj_id}', array('as' => 'project_tag.removeFromProject', 'uses' => 'ProjectTagController@removeFromProject'));
 Route::get('tag/add/{id}', array('as' => 'tag.add', 'uses' => 'TagController@add'));
 Route::get('tag/createTag/{id}', array('as' => 'tag.createTag', 'uses' => 'TagController@createTag'));
+Route::get('project_tag/approve/{id}', array('as' => 'project_tag.approve', 'uses' => 'ProjectTagController@approve'));
+Route::get('project_tag/refuse/{id}', array('as' => 'project_tag.refuse', 'uses' => 'ProjectTagController@refuse'));
+
 
 
 
