@@ -60,6 +60,14 @@ Route::post('editor/tagsPanel/', array('as' => 'editor.tagsPanel', 'uses' => 'Ed
 Route::any('project/projectsPanel/', array('as' => 'projects.projectsPanel', 'uses' => 'ProjectController@projectsPanel'));
 Route::any('editor/projectsPanel/', array('as' => 'editor.projectsPanel', 'uses' => 'EditorController@projectsPanel'));
 
+//tags
+Route::get('project_tag/add/{id}', array('as' => 'project_tag.add', 'uses' => 'ProjectTagController@add'));
+Route::get('project_tag/{tag_id}/addToProject/{proj_id}', array('as' => 'project_tag.addToProject', 'uses' => 'ProjectTagController@addToProject'));
+Route::get('project_tag/{tag_id}/removeFromProject/{proj_id}', array('as' => 'project_tag.removeFromProject', 'uses' => 'ProjectTagController@removeFromProject'));
+Route::get('tag/add/{id}', array('as' => 'tag.add', 'uses' => 'TagController@add'));
+Route::get('tag/createTag/{id}', array('as' => 'tag.createTag', 'uses' => 'TagController@createTag'));
+
+
 
 
 

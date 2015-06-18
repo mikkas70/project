@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use App\Media;
 use App\Comment;
 use App\User;
+use App\ProjectTag;
+use App\Tag;
 use Illuminate\Http\Request;
 use Validator;
 use Auth;
@@ -139,14 +141,17 @@ class ProjectController extends Controller {
     public function show($id)
     {
         $project = Project::findOrFail($id);
-
         $medias = Project::find(1)->media()->where('project_id', '=', $id)->get();
         $comments = Project::find(1)->comments()->where('project_id', '=', $id)->orderBy('created_at', 'DESC')->get();
+        $project_tags = Project::find(1)->project_tags()->where('project_id', '=', $id)->where('state', '=', 1)->get();
+        foreach($project_tags as $project_tag) {
+            $tags[$project_tag->id] = Tag::findOrFail($project_tag->tag_id);
+        }
         $users = User::all();
 
 
         // mostrar pagina de um projecto
-        return view('projects.singleProject', compact('project'), compact('medias', 'comments', 'users'));
+        return view('projects.singleProject', compact('project'), compact('medias', 'comments', 'users', 'tags'));
     }
 
     /**

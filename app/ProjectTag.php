@@ -4,11 +4,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectTag extends Model {
 
+    protected $table = 'project_tag';
+
     public function project(){
-        return $this->has('App\Project');
+        return $this->hasOne('App\Project');
     }
 
     public function tag(){
-        return $this->has('App\Tag');
+        return $this->hasOne('App\Tag');
     }
 }

@@ -96,6 +96,19 @@
                         </tr>
 
                     @endif
+                    <tr>
+                        <td><strong>Tags:</strong></td>
+                        <td>
+                            @foreach($tags as $tag)
+                                {{$tag->tag}}<br>
+                            @endforeach
+                            @if(Auth::check() && ($project->created_by == Auth::user()->id || Auth::user()->role >= 2))
+                                <br>
+                                <a class="btn btn-primary" href="{{route('project_tag.add', [$project->id])}}" role="button">Tag Options</a>
+                            @endif
+                        </td>
+
+                    </tr>
                     </tbody>
 
                 </table>

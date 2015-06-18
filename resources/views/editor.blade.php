@@ -26,7 +26,7 @@
                             </form>
                         </td>
                         <td>
-                            <a href="{{ route('editor.projectsPanel') }}" class="btn btn-primary" style="color:white; margin-left: 10px">Project Tags</a>
+                            <a href="{{ route('project_tag.index') }}" class="btn btn-primary" style="color:white; margin-left: 10px">Project Tags</a>
                         </td>
                     </table>
             </div>

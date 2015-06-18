@@ -16,7 +16,7 @@ class Project extends Model {
         return $this->hasMany('App\Comment');
     }
 
-    public function tags(){
-        return $this->hasMany('App\ProjectTags');
+    public function project_tags(){
+        return $this->hasMany('App\ProjectTag');
     }
 }
