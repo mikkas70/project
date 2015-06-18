@@ -1,6 +1,7 @@
 @extends('editor')
 
 @section('editor_content')
+
     <div class="panel panel-default">
     <div class="panel-heading">
         <h3>Comment Section</h3>
@@ -21,6 +22,7 @@
                 {{Session::get('message_success')}}
             </div>
         @endif
+
         @if(count($comments))
             <table class="table table-condensed">
                 <thead>

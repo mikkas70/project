@@ -80,7 +80,7 @@ class ProjectController extends Controller {
         $project = Project::findOrFail($id);
 
         $project->approved_by = Auth::user()->id;
-
+        $project->state = 1;
         if(!$project->save())
         {
             $message = ['message_error' => 'Project could not be approved'];
@@ -201,6 +201,7 @@ class ProjectController extends Controller {
         $project->used_software = $request->used_software;
         $project->used_hardware = $request->used_hardware;
         $project->observations = $request->observations;
+        $project->state = 0;
 
         if(Auth::user()->role < 2 && Auth::user()->id == $project->created_by)
         {
@@ -222,11 +223,23 @@ class ProjectController extends Controller {
         return redirect()->route('projects.show', $id)->with($message);
     }
 
-    public function projectsPanel()
+    public function projectsPanel(Request $request)
     {
-        $projects = Project::all();
-        $users = User::all();
-        return view('editor.projectSection' , compact('projects', 'users'));
+
+        $search = $request->get('search');
+        $sortby = $request->get('sort_by', 'name');
+        $totalPerPage = $request->get('results', 10);
+        $order = $request->get('sort_type', 'ASC');
+
+        if ($search == null) {
+            $projects = Project::orderBy($sortby, $order)->paginate($totalPerPage);
+            $projects->appends(['search' => $search, 'sort_by' => $sortby, 'results' => $totalPerPage, 'sort_type' => $order])->render();
+
+        }else{
+            $projects = Project::where('name', 'like', '%'.$search.'%')->orderBy($sortby, $order)->paginate($totalPerPage);
+            $projects->appends(['search' => $search, 'sort_by' => $sortby, 'results' => $totalPerPage, 'sort_type' => $order])->render();
+        }
+        return view('editor.projectSection' , compact('projects'));
     }
 
     /**

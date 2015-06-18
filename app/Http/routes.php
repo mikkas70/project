@@ -57,7 +57,9 @@ Route::get('media/createMedia/{id}', array('as' => 'media.createMedia', 'uses' =
 
 //editor
 Route::post('editor/tagsPanel/', array('as' => 'editor.tagsPanel', 'uses' => 'EditorController@tagsPanel'));
-Route::post('editor/projectsPanel/', array('as' => 'editor.projectsPanel', 'uses' => 'EditorController@projectsPanel'));
+Route::any('project/projectsPanel/', array('as' => 'projects.projectsPanel', 'uses' => 'ProjectController@projectsPanel'));
+Route::any('editor/projectsPanel/', array('as' => 'editor.projectsPanel', 'uses' => 'EditorController@projectsPanel'));
+
 
 
 

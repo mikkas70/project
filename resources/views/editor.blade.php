@@ -20,7 +20,7 @@
                         <td>
                             <form action="{{route('editor.projectsPanel')}}" method="post">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" style="margin-left: 10px">
                                     Projects
                                 </button>
                             </form>

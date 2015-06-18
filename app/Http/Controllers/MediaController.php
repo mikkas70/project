@@ -16,12 +16,25 @@ class MediaController extends Controller {
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $medias = Media::all();
 
+        $search = $request->get('search');
+        $sortby = $request->get('sort_by', 'title');
+        $totalPerPage = $request->get('results', 10);
+        $order = $request->get('sort_type', 'ASC');
+
         if(Auth::user()->role >= 2)
         {
+            if ($search == null) {
+                $medias = Media::orderBy($sortby, $order)->paginate($totalPerPage);
+                $medias->appends(['search' => $search, 'sort_by' => $sortby, 'results' => $totalPerPage, 'sort_type' => $order])->render();
+
+            }else{
+                $medias = Media::where('title', 'like', '%'.$search.'%')->orderBy($sortby, $order)->paginate($totalPerPage);
+                $medias->appends(['search' => $search, 'sort_by' => $sortby, 'results' => $totalPerPage, 'sort_type' => $order])->render();
+            }
             return view('editor.mediaSection' , compact('medias'));
         }
 
@@ -226,7 +239,7 @@ class MediaController extends Controller {
         $media = Media::findOrFail($id);
 
         $media->approved_by = Auth::user()->id;
-
+        $media->flags = 1;
 
         if(!$media->save()) {
             $message = ['message_error' => 'Media could not be approved'];

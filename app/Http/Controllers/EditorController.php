@@ -44,12 +44,26 @@ class EditorController extends Controller {
         return view('editor.tagsPanel' , compact('tags'));*/
     }
 
-    public function projectsPanel()
+    public function projectsPanel(Request $request)
     {
-        echo "ola";
-        /*$projects = Project::all();
-        $users = User::all();
-        return view('editor.projectSection' , compact('projects', 'users'));*/
+
+        $projects = Project::all();
+
+        $search = $request->get('search');
+        $sortby = $request->get('sort_by', 'name');
+        $totalPerPage = $request->get('results', 10);
+        $order = $request->get('sort_type', 'ASC');
+
+        if ($search == null) {
+            $projects = Project::orderBy($sortby, $order)->paginate($totalPerPage);
+            $projects->appends(['search' => $search, 'sort_by' => $sortby, 'results' => $totalPerPage, 'sort_type' => $order])->render();
+
+        }else{
+            $projects = Project::where('name', 'like', '%'.$search.'%')->orderBy($sortby, $order)->paginate($totalPerPage);
+            $projects->appends(['search' => $search, 'sort_by' => $sortby, 'results' => $totalPerPage, 'sort_type' => $order])->render();
+        }
+
+        return view('editor.projectSection' , compact('projects'));
     }
 
 
